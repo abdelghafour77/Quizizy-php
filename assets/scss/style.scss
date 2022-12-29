@@ -1,0 +1,274 @@
+@import "globals/index";
+html {
+  background-color: $color-bg;
+  box-sizing: border-box;
+}
+
+body {
+  // height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+body,
+p,
+input,
+select,
+textarea,
+button {
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: -0.2px;
+  font-size: $ruler;
+}
+
+div,
+p {
+  color: $color-text;
+  text-shadow: 1px 1px 1px $color-white;
+}
+
+form {
+  padding: $ruler;
+  width: $ruler * 20;
+  margin: 0 auto;
+}
+
+.segment {
+  padding: $ruler * 2 0;
+  text-align: center;
+}
+
+button,
+input {
+  border: 0;
+  outline: 0;
+  font-size: $ruler;
+  border-radius: $ruler * 20;
+  padding: $ruler;
+  background-color: $color-bg;
+  text-shadow: 1px 1px 0 $color-white;
+}
+
+label {
+  display: block;
+  margin-bottom: $ruler * 1.5;
+  width: 100%;
+}
+
+input {
+  margin-right: $ruler/2;
+  box-shadow: inset 2px 2px 5px $color-shadow, inset -5px -5px 10px $color-white;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &:focus {
+    box-shadow: inset 1px 1px 2px $color-shadow, inset -1px -1px 2px $color-white;
+  }
+}
+
+button {
+  color: #61677c;
+  font-weight: bold;
+  box-shadow: -5px -5px 20px $color-white, 5px 5px 20px $color-shadow;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  font-weight: 600;
+
+  &:hover {
+    box-shadow: -2px -2px 5px $color-white, 2px 2px 5px $color-shadow;
+  }
+
+  &:active {
+    box-shadow: inset 1px 1px 2px $color-shadow, inset -1px -1px 2px $color-white;
+  }
+
+  .icon {
+    margin-right: $ruler/2;
+  }
+
+  &.unit {
+    border-radius: $ruler/2;
+    line-height: 0;
+    width: $ruler * 3;
+    height: $ruler * 3;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 $ruler/2;
+    font-size: $ruler * 1.2;
+
+    .icon {
+      margin-right: 0;
+    }
+  }
+
+  &.red {
+    display: block;
+    width: 100%;
+    color: $color-red;
+  }
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  label {
+    margin: 0;
+    flex: 1;
+  }
+}
+
+.neumorphic-checkbox {
+  padding: 20px;
+  position: relative;
+  margin: 0 5px;
+  transition: all 0.25s ease;
+}
+
+.neumorphic-checkbox::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #a0a6b3;
+  background: transparent;
+  top: 50%;
+  left: 96%;
+  transform: translate(-50%, -50%);
+  transition: all 0.25s ease;
+}
+
+.neumorphic-checkbox_active {
+  box-shadow: 7px 7px 15px rgba(55, 84, 170, 0.15), -7px -7px 20px rgba(255, 255, 255, 1), inset 0px 0px 4px rgba(255, 255, 255, 0), inset 7px 7px 15px rgba(55, 84, 170, 0.15), inset -7px -7px 20px rgba(255, 255, 255, 1), 0px 0px 4px rgba(255, 255, 255, 0.2) !important;
+}
+
+.neumorphic-checkbox_active::after {
+  background-color: #a3aab9;
+}
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+.grid-menu {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.d-flex {
+  display: flex;
+}
+
+#question {
+  margin-bottom: 3rem;
+}
+#timer {
+  text-align: center;
+}
+#next {
+  margin-top: 2rem;
+  width: 100%;
+}
+#name {
+  text-align: end;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.progress {
+  @include size(100%, 12px);
+  @include gridPlacement(column, 1, 5);
+  @include gridPlacement(row, 7, 7);
+  position: relative;
+  margin-top: 16px;
+  border-radius: 12px;
+  box-shadow: $dropShadow;
+  background-color: $color-bg;
+
+  $progress: 10%;
+
+  &__fill {
+    @include size($progress, 100%);
+    position: absolute;
+    border-radius: inherit;
+    background-image: linear-gradient(to right, $accentBlue, $brightBlue);
+
+    &:before {
+      @include applyFontStyle;
+      content: "#{$progress}";
+      padding: 11px 15px;
+      margin-top: -16px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: translate(50%, -100%);
+      border-radius: 8px;
+      box-shadow: $dropShadow;
+      background-color: $color-bg;
+    }
+
+    &:after {
+      content: "";
+      @include size(0);
+      position: absolute;
+      right: 0;
+      bottom: 12px;
+      transform: translate(50%, -100%);
+      border-top: 9px solid $color-bg;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+    }
+  }
+}
+
+#results {
+  width: 80%;
+  margin-top: 4rem;
+  #score {
+    border-radius: $border;
+    padding: 1rem;
+    color: #61677c;
+    font-weight: bold;
+    box-shadow: -5px -5px 20px $color-white, 5px 5px 20px $color-shadow;
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 5rem;
+    margin: 2rem auto;
+  }
+  .question {
+    border-radius: $border;
+    padding: 1rem;
+    color: #61677c;
+    // font-weight: bold;
+    box-shadow: -5px -5px 20px $color-white, 5px 5px 20px $color-shadow;
+    transition: all 0.2s ease-in-out;
+    // cursor: pointer;
+    font-weight: 600;
+    margin: 2rem auto;
+    .correct-answer {
+      color: green;
+      span {
+        font-weight: bold;
+        font-size: 120%;
+      }
+    }
+    .justification {
+      span {
+        font-weight: bold;
+        font-size: 120%;
+      }
+    }
+  }
+}
+#questions {
+  width: 800px;
+}
