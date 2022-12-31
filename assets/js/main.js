@@ -26,11 +26,7 @@ $.getJSON('assets/json/data.json', function (jsonData) {
 });
 
 $('#next').click(function () {
-      core();
-});
-
-function core() {
-      var answer = {}
+      let answer = {}
       answer.id = $('#id').val()
       answer.answer1 = $('#answer1').hasClass('neumorphic-checkbox_active')
       answer.answer2 = $('#answer2').hasClass('neumorphic-checkbox_active')
@@ -38,12 +34,18 @@ function core() {
       answer.answer4 = $('#answer4').hasClass('neumorphic-checkbox_active')
       user_answers.push(answer)
       clearInterval(timerId);
-      timer()
-      clearAnswers()
-      fetching()
-      $("#progress").text(index + '/' + data.length)
-      if (index > data.length) {
+      core();
+});
+
+function core() {
+      if (index >= data.length) {
             results();
+            // party.confetti(this);
+      } else {
+            timer()
+            clearAnswers()
+            fetching()
+            $("#progress").text(index + '/' + data.length)
       }
 }
 
@@ -117,9 +119,7 @@ function results() {
       let result;
       let re = '';
       original_data.forEach(element => {
-            // console.log(element.id)
-            // console.log(res[i])
-            // console.log("-------")
+
             if (element.id == res[i]) {
                   result = element.answers.find(item => item.correct === true)
                   console.log(user_answers[element.id])
@@ -135,11 +135,16 @@ function results() {
 
       });
 
+
       $("#result_questions").html(re)
       // console.log(question);
 
       $("#score span").text(a + "/" + data.length);
+
+      // let nn = $("#results").get()
+      // party.confetti(nn)
       // party.confetti($("#results"))
+      // party.confetti($("#results"));
 
 
 }
