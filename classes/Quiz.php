@@ -27,6 +27,6 @@ class Quiz extends  Model
     }
 
     $encoded_data = json_encode($questions, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    file_put_contents('data.json', $encoded_data);
+    file_put_contents('assets/json/data.json', $encoded_data);
   }
 }
