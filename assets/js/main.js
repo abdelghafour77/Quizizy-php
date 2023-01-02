@@ -27,12 +27,18 @@ $.getJSON('assets/json/data.json', function (jsonData) {
 
 $('#next').click(function () {
       let answer = {}
-      answer.id = $('#id').val()
-      answer.answer1 = $('#answer1').hasClass('neumorphic-checkbox_active')
-      answer.answer2 = $('#answer2').hasClass('neumorphic-checkbox_active')
-      answer.answer3 = $('#answer3').hasClass('neumorphic-checkbox_active')
-      answer.answer4 = $('#answer4').hasClass('neumorphic-checkbox_active')
-      user_answers.push(answer)
+      answer.id_question = $('#id').val()
+      id1 = ($("#answer1").data("id"));
+      id2 = ($("#answer2").data("id"));
+      id3 = ($("#answer3").data("id"));
+      id4 = ($("#answer4").data("id"));
+      console.log(id1);
+      // name of attribute variable 
+      answer[id1] = $('#answer1').hasClass('neumorphic-checkbox_active')
+      answer[id2] = $('#answer2').hasClass('neumorphic-checkbox_active')
+      answer[id3] = $('#answer3').hasClass('neumorphic-checkbox_active')
+      answer[id4] = $('#answer4').hasClass('neumorphic-checkbox_active')
+      user_answers[answer.id_question] = answer
       clearInterval(timerId);
       core();
 });
@@ -60,6 +66,10 @@ function fetching() {
       if (index < data.length) {
             $('#id').val(data[index].id);
             $('#question').html(data[index].question);
+            ($("#answer1").data("id", data[index].answers[0].id));
+            ($("#answer2").data("id", data[index].answers[1].id));
+            ($("#answer3").data("id", data[index].answers[2].id));
+            ($("#answer4").data("id", data[index].answers[3].id));
             $('#answer1 p').html(data[index].answers[0].answer);
             $('#answer2 p').html(data[index].answers[1].answer);
             $('#answer3 p').html(data[index].answers[2].answer);
@@ -93,61 +103,73 @@ function timer() {
             }
       }, 1000);
 }
-
 function results() {
-      $("#questions").hide();
-      $("#results").show();
-      // party.confetti(this)
-
-      let a = 0;
-      let res = [];
-      data.forEach(function (question, index) {
-            if (question.answers[0].correct == user_answers[index].answer1 &&
-                  question.answers[1].correct == user_answers[index].answer2 &&
-                  question.answers[2].correct == user_answers[index].answer3 &&
-                  question.answers[3].correct == user_answers[index].answer4) {
-                  a++
-
-            } else {
-                  res.push(user_answers[index].id)
+      $.ajax({
+            type: 'POST',
+            url: 'controllers/quizController.php',
+            data: {
+                  user_answers: user_answers
+            },
+            success: function (response) {
+                  console.log(response);
             }
       });
-      console.log(res);
-      res.sort((a, b) => a - b);
-      let i = 0;
-      console.log(res);
-      let result;
-      let re = '';
-      original_data.forEach(element => {
-
-            if (element.id == res[i]) {
-                  result = element.answers.find(item => item.correct === true)
-                  console.log(user_answers[element.id])
-                  re += `
-                        <div class="question">
-                              <h4>${element.question}</h4>
-                              <h5 class="correct-answer"><span>Correct answer : </span>${result.answer}</h5>
-                              <h5 class="justification"><span>Justification : </span> ${element.justify}</h5>
-                        </div>`;
-                  i++;
-            }
-
-
-      });
-
-
-      $("#result_questions").html(re)
-      // console.log(question);
-
-      $("#score span").text(a + "/" + data.length);
-
-      // let nn = $("#results").get()
-      // party.confetti(nn)
-      // party.confetti($("#results"))
-      // party.confetti($("#results"));
-
 
 }
+// function results() {
+//       $("#questions").hide();
+//       $("#results").show();
+//       // party.confetti(this)
+
+//       let a = 0;
+//       let res = [];
+//       data.forEach(function (question, index) {
+//             if (question.answers[0].correct == user_answers[index].answer1 &&
+//                   question.answers[1].correct == user_answers[index].answer2 &&
+//                   question.answers[2].correct == user_answers[index].answer3 &&
+//                   question.answers[3].correct == user_answers[index].answer4) {
+//                   a++
+
+//             } else {
+//                   res.push(user_answers[index].id)
+//             }
+//       });
+//       console.log(res);
+//       res.sort((a, b) => a - b);
+//       let i = 0;
+//       console.log(res);
+//       let result;
+//       let re = '';
+//       original_data.forEach(element => {
+
+//             if (element.id == res[i]) {
+//                   result = element.answers.find(item => item.correct === true)
+//                   console.log(user_answers[element.id])
+//                   re += `
+//                         <div class="question">
+//                               <h4>${element.question}</h4>
+//                               <h5 class="correct-answer"><span>Correct answer : </span>${result.answer}</h5>
+//                               <h5 class="justification"><span>Justification : </span> ${element.justify}</h5>
+//                         </div>`;
+//                   i++;
+//             }
+
+
+//       });
+
+
+//       $("#result_questions").html(re)
+//       // console.log(question);
+
+//       $("#score span").text(a + "/" + data.length);
+
+//       // let nn = $("#results").get()
+//       // party.confetti(nn)
+//       // party.confetti($("#results"))
+//       // party.confetti($("#results"));
+
+
+// }
 
 // party.confetti(runButton, {
 //       count: party.variation.range(20, 40),
