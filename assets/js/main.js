@@ -32,7 +32,7 @@ $('#next').click(function () {
       id2 = ($("#answer2").data("id"));
       id3 = ($("#answer3").data("id"));
       id4 = ($("#answer4").data("id"));
-      console.log(id1);
+      // console.log(id1);
       // name of attribute variable 
       answer[id1] = $('#answer1').hasClass('neumorphic-checkbox_active')
       answer[id2] = $('#answer2').hasClass('neumorphic-checkbox_active')

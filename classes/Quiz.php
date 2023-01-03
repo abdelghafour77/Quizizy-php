@@ -10,9 +10,6 @@ class Quiz extends  Model
   {
     $sql = "SELECT id,quiz_id,question FROM questions";
     $results = Database::Get($sql);
-    // var_dump($results);
-    // die;
-
 
     foreach ($results as $question) {
       $id = $question['id'];
@@ -50,5 +47,12 @@ class Quiz extends  Model
     }
 
     return $questions;
+  }
+  function getAnswers()
+  {
+    $sql = "SELECT * FROM answers";
+    $results = Database::Get($sql);
+
+    return $results;
   }
 }
