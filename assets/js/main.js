@@ -4,7 +4,6 @@ let data;
 var timerId
 var user_answers = []
 
-
 $("#questions").hide();
 $("#results").hide();
 $("#welcome").show();
