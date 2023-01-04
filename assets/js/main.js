@@ -25,7 +25,8 @@ $.getJSON('assets/json/data.json', function (jsonData) {
 });
 
 $('#next').click(function () {
-      let answer = {}
+      let answer = {};
+      let an = [];
       answer.id_question = $('#id').val()
       id1 = ($("#answer1").data("id"));
       id2 = ($("#answer2").data("id"));
@@ -33,11 +34,14 @@ $('#next').click(function () {
       id4 = ($("#answer4").data("id"));
       // console.log(id1);
       // name of attribute variable 
-      answer[id1] = $('#answer1').hasClass('neumorphic-checkbox_active')
-      answer[id2] = $('#answer2').hasClass('neumorphic-checkbox_active')
-      answer[id3] = $('#answer3').hasClass('neumorphic-checkbox_active')
-      answer[id4] = $('#answer4').hasClass('neumorphic-checkbox_active')
+      answer1 = $('#answer1').hasClass('neumorphic-checkbox_active')
+      answer2 = $('#answer2').hasClass('neumorphic-checkbox_active')
+      answer3 = $('#answer3').hasClass('neumorphic-checkbox_active')
+      answer4 = $('#answer4').hasClass('neumorphic-checkbox_active')
+      an.push(answer1, answer2, answer3, answer4);
+      answer.answers = an;
       user_answers[answer.id_question] = answer
+      console.log(user_answers);
       clearInterval(timerId);
       core();
 });
@@ -110,7 +114,10 @@ function results() {
                   user_answers: user_answers
             },
             success: function (response) {
-                  console.log(response);
+                  $("#questions").hide();
+                  $("#results").show();
+                  $("#results").html(response)
+                  // console.log(response);
             }
       });
 

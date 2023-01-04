@@ -50,9 +50,22 @@ class Quiz extends  Model
   }
   function getAnswers()
   {
-    $sql = "SELECT * FROM answers";
+    $sql = "SELECT questions.id,questions.question,questions.justify,answers.answer FROM questions inner join answers on answers.question_id=questions.id where answers.type=1";
     $results = Database::Get($sql);
 
-    return $results;
+    foreach ($results as $question) {
+      $id = $question['id'];
+      $sql = "SELECT id,type FROM answers where question_id=$id";
+      $re = Database::Get($sql);
+      $answers = [];
+      foreach ($re as $answer) {
+        $answers[] = $answer;
+      }
+      $question['answers'] = $answers;
+      // var_dump($answers);
+      // die;
+      $questions[] = $question;
+    }
+    return $questions;
   }
 }
