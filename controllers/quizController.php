@@ -13,24 +13,14 @@ if (isset($_POST['user_answers'])) results();
 function results()
 {
 
-
-  // foreach ($_POST['user_answers'] as $subArray) {
-  // var_dump($subArray);
   $ar = $_POST['user_answers'];
-  // }
-
-  // print_r($mergedArray); // [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
   $answers = (new Quiz)->getAnswers();
-  // var_dump($answers);
-  // unset($mergedArray['id_question']);
-  // var_dump($mergedArray);
-  // var_dump($answers);
+  $countQuestions = (new Quiz)->countQuestions();
   $score = 0;
   $re = "";
   $wrongAnswers = "<div id='result_questions'>";
   foreach ($answers as $answer) {
-    // var_dump($ar[$answer['id']]['answers'][0]);
     $answer_1 = ($ar[$answer['id']]['answers'][0] == 'false') ? 0 : 1;
     $answer_2 = ($ar[$answer['id']]['answers'][1] == 'false') ? 0 : 1;
     $answer_3 = ($ar[$answer['id']]['answers'][2] == 'false') ? 0 : 1;
@@ -39,10 +29,6 @@ function results()
     $user_2 = $answer['answers'][1]['type'];
     $user_3 = $answer['answers'][2]['type'];
     $user_4 = $answer['answers'][3]['type'];
-
-    // echo "ID: " . $answer['id'] . "<br>";
-    // echo "user:\t " . $answer_1 . "   " . $answer_2 . "   " . $answer_3 . "   " . $answer_4;
-    // echo "databse:\t " . $user_1 . "   " . $user_2 . "   " . $user_3 . "   " . $user_4 . "<br>";
 
     if ($user_1 == $answer_1 && $user_2 == $answer_2 && $user_3 == $answer_3 && $user_4 == $answer_4) {
       $score += 1;
@@ -54,8 +40,20 @@ function results()
               </div>";
     }
   }
-  $aa = "<span id='score'>Your score is <span>" . $score . "/10</span></span>";
-  $ress = $wrongAnswers . $aa . $re  . "</div>";
-  echo $ress;
-  // return $ress;
+  $st = "";
+  if ($score < ($countQuestions / 2)) {
+    $st = "Bad 😐";
+  } else if ($score < $countQuestions) {
+    $st = "GOOD 😊";
+  }
+  $aa = "<span id='score'>$st your score is <span>$score / $countQuestions</span></span>";
+  if ($score == $countQuestions) {
+    $ress = $wrongAnswers . " <h3>Congratulations you have successfully 🎉 completed quiz with full success ! </h3> " .  "</div>  
+                              <script>
+                                congrat();
+                              </script>";
+  } else {
+    $ress = $wrongAnswers . $aa . $re  . "</div>";
+  }
+  echo $ress . "<div class='end'><button id='tryAgain' onclick='Index()'>Try Again</button></div>";
 }

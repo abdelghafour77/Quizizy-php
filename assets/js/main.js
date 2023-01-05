@@ -3,11 +3,15 @@ let original_data
 let data;
 var timerId
 var user_answers = []
-
-$("#questions").hide();
-$("#results").hide();
-$("#welcome").show();
-$("#results").hide();
+Index()
+function Index() {
+      index = 0
+      $("#progress").text('1/10')
+      $("#questions").hide();
+      $("#results").hide();
+      $("#welcome").show();
+      $("#results").hide();
+}
 
 $('.neumorphic-checkbox').on('click', function () {
       $(this).toggleClass('neumorphic-checkbox_active');
@@ -16,15 +20,17 @@ $('.neumorphic-checkbox').on('click', function () {
 $.getJSON('assets/json/data.json', function (jsonData) {
 
       original_data = jsonData;
-      // to shuffle array 
+
       data = original_data.slice().sort(function () {
             return 0.5 - Math.random();
       });
-      // console.log(original_data); // Original array
-      // console.log(data); // Shuffled array
 });
 
 $('#next').click(function () {
+      next();
+});
+
+function next() {
       let answer = {};
       let an = [];
       answer.id_question = $('#id').val()
@@ -32,8 +38,7 @@ $('#next').click(function () {
       id2 = ($("#answer2").data("id"));
       id3 = ($("#answer3").data("id"));
       id4 = ($("#answer4").data("id"));
-      // console.log(id1);
-      // name of attribute variable 
+
       answer1 = $('#answer1').hasClass('neumorphic-checkbox_active')
       answer2 = $('#answer2').hasClass('neumorphic-checkbox_active')
       answer3 = $('#answer3').hasClass('neumorphic-checkbox_active')
@@ -41,15 +46,13 @@ $('#next').click(function () {
       an.push(answer1, answer2, answer3, answer4);
       answer.answers = an;
       user_answers[answer.id_question] = answer
-      console.log(user_answers);
+      // console.log(user_answers);
       clearInterval(timerId);
       core();
-});
-
+}
 function core() {
       if (index >= data.length) {
             results();
-            // party.confetti(this);
       } else {
             timer()
             clearAnswers()
@@ -99,7 +102,7 @@ function timer() {
       timerId = setInterval(function () {
 
             if (timeLeft == -1) {
-                  core()
+                  next()
             } else {
                   elem.text(timeLeft + ' s');
                   timeLeft -= 1;
@@ -117,69 +120,10 @@ function results() {
                   $("#questions").hide();
                   $("#results").show();
                   $("#results").html(response)
-                  // console.log(response);
             }
       });
 
 }
-// function results() {
-//       $("#questions").hide();
-//       $("#results").show();
-//       // party.confetti(this)
-
-//       let a = 0;
-//       let res = [];
-//       data.forEach(function (question, index) {
-//             if (question.answers[0].correct == user_answers[index].answer1 &&
-//                   question.answers[1].correct == user_answers[index].answer2 &&
-//                   question.answers[2].correct == user_answers[index].answer3 &&
-//                   question.answers[3].correct == user_answers[index].answer4) {
-//                   a++
-
-//             } else {
-//                   res.push(user_answers[index].id)
-//             }
-//       });
-//       console.log(res);
-//       res.sort((a, b) => a - b);
-//       let i = 0;
-//       console.log(res);
-//       let result;
-//       let re = '';
-//       original_data.forEach(element => {
-
-//             if (element.id == res[i]) {
-//                   result = element.answers.find(item => item.correct === true)
-//                   console.log(user_answers[element.id])
-//                   re += `
-//                         <div class="question">
-//                               <h4>${element.question}</h4>
-//                               <h5 class="correct-answer"><span>Correct answer : </span>${result.answer}</h5>
-//                               <h5 class="justification"><span>Justification : </span> ${element.justify}</h5>
-//                         </div>`;
-//                   i++;
-//             }
-
-
-//       });
-
-
-//       $("#result_questions").html(re)
-//       // console.log(question);
-
-//       $("#score span").text(a + "/" + data.length);
-
-//       // let nn = $("#results").get()
-//       // party.confetti(nn)
-//       // party.confetti($("#results"))
-//       // party.confetti($("#results"));
-
-
-// }
-
-// party.confetti(runButton, {
-//       count: party.variation.range(20, 40),
-// });
 
 
 

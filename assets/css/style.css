@@ -433,3 +433,9 @@ p {
 #questions {
   width: 800px;
 }
+
+.end {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 3rem;
+}

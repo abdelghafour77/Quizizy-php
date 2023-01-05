@@ -68,4 +68,11 @@ class Quiz extends  Model
     }
     return $questions;
   }
+  function countQuestions()
+  {
+    $sql = "SELECT count(*) as questions FROM questions ";
+    $results = Database::Get($sql);
+
+    return $results[0]['questions'];
+  }
 }
